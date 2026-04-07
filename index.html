@@ -1,0 +1,675 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Source+Sans+3:wght@400;500&display=swap');
+  :root {
+    --brand: #1a3a5c;
+    --accent: #c8922a;
+    --accent2: #2a7a5c;
+    --accent3: #8c2a5c;
+    --light: #f5f3ee;
+    --muted: var(--color-text-secondary);
+    --card-bg: var(--color-background-primary);
+    --border: var(--color-border-tertiary);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', var(--font-sans), sans-serif; }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 0 2rem; }
+  .header { background: var(--brand); color: #fff; padding: 1.5rem 1.5rem 1.2rem; border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; margin-bottom: 0; }
+  .header h1 { font-family: 'Playfair Display', var(--font-serif); font-size: 20px; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 4px; }
+  .header p { font-size: 12px; opacity: 0.75; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .badge { background: rgba(255,255,255,0.15); border: 0.5px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: #fff; cursor: pointer; transition: background 0.18s; }
+  .badge:hover, .badge.active { background: rgba(255,255,255,0.32); }
+  .tabs { display: flex; gap: 2px; background: var(--color-background-secondary); border: 0.5px solid var(--border); border-top: none; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; padding: 10px 14px; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
+  .tab:hover { color: var(--color-text-primary); }
+  .tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+  .content { padding: 0; }
+  .panel { display: none; padding: 1rem 1.25rem; }
+  .panel.active { display: block; }
+  .section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 1.2rem 0 0.6rem; }
+  .section-title:first-child { margin-top: 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 560px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .card { background: var(--card-bg); border: 0.5px solid var(--border); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; }
+  .card-blue { border-left: 3px solid #185FA5; }
+  .card-amber { border-left: 3px solid #BA7517; }
+  .card-green { border-left: 3px solid #3B6D11; }
+  .card-red { border-left: 3px solid #A32D2D; }
+  .card-purple { border-left: 3px solid #534AB7; }
+  .card-teal { border-left: 3px solid #0F6E56; }
+  .card h3 { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 5px; }
+  .card p, .card li { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .card ul { padding-left: 14px; }
+  .author { font-size: 11px; font-weight: 500; color: var(--accent); margin-top: 6px; }
+  .data-pill { display: inline-block; background: var(--color-background-secondary); border: 0.5px solid var(--border); border-radius: 12px; padding: 2px 8px; font-size: 11px; font-weight: 500; color: var(--color-text-primary); margin: 2px 2px 2px 0; }
+  .data-pill.hot { background: #FAEEDA; border-color: #BA7517; color: #633806; }
+  .data-pill.cool { background: #E6F1FB; border-color: #185FA5; color: #042C53; }
+  .data-pill.green { background: #EAF3DE; border-color: #3B6D11; color: #173404; }
+  .data-pill.red { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+  .mindmap-wrap { overflow-x: auto; }
+  .quote { border-left: 3px solid var(--accent); background: var(--color-background-secondary); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 0.6rem 0.8rem; margin: 6px 0; font-size: 12px; color: var(--muted); font-style: italic; }
+  .question-pill { display: inline-block; background: var(--brand); color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 500; margin-bottom: 6px; }
+  .tag { display: inline-block; border-radius: 10px; padding: 1px 7px; font-size: 10px; font-weight: 500; margin: 1px; }
+  .tag-pour { background: #EAF3DE; color: #3B6D11; }
+  .tag-contre { background: #FCEBEB; color: #A32D2D; }
+  .tag-neutre { background: #E6F1FB; color: #185FA5; }
+  hr { border: none; border-top: 0.5px solid var(--border); margin: 10px 0; }
+  .tip { background: #FAEEDA; border-radius: var(--border-radius-md); padding: 0.6rem 0.8rem; font-size: 12px; color: #633806; margin: 8px 0; }
+  .tip strong { color: #412402; }
+</style>
+
+<div class="container">
+  <div class="header">
+    <h1>Revenus, redistribution &amp; fiscalité — Fiche L2 Droit</h1>
+    <p>Oral économie · 10 min · 16 sujets regroupés en 5 grandes thématiques</p>
+    <div class="badge-row">
+      <span class="badge active" onclick="showTab('vue')">Vue d'ensemble</span>
+      <span class="badge" onclick="showTab('fiscalite')">Fiscalité</span>
+      <span class="badge" onclick="showTab('inegalites')">Inégalités</span>
+      <span class="badge" onclick="showTab('redistribution')">Redistribution</span>
+      <span class="badge" onclick="showTab('travail')">Travail &amp; Capital</span>
+      <span class="badge" onclick="showTab('oral')">Méthode oral</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('vue')">Vue globale</div>
+    <div class="tab" onclick="showTab('fiscalite')">Fiscalité</div>
+    <div class="tab" onclick="showTab('inegalites')">Inégalités</div>
+    <div class="tab" onclick="showTab('redistribution')">Redistribution</div>
+    <div class="tab" onclick="showTab('travail')">Travail &amp; Capital</div>
+    <div class="tab" onclick="showTab('oral')">Méthode oral</div>
+  </div>
+
+  <div class="content">
+
+    <!-- === VUE GLOBALE === -->
+    <div id="panel-vue" class="panel active">
+      <p class="section-title">Carte mentale — Architecture des sujets</p>
+      <div class="mindmap-wrap">
+        <svg width="100%" viewBox="0 0 780 420" role="img">
+          <title>Carte mentale des 5 thématiques</title>
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+          </defs>
+          <!-- Centre -->
+          <rect x="290" y="175" width="200" height="56" rx="10" fill="#1a3a5c"/>
+          <text x="390" y="198" text-anchor="middle" fill="#fff" font-size="13" font-weight="500" font-family="sans-serif">Revenus</text>
+          <text x="390" y="217" text-anchor="middle" fill="#9bb8d4" font-size="11" font-family="sans-serif">&amp; leur répartition</text>
+
+          <!-- Fiscalité -->
+          <line x1="290" y1="200" x2="140" y2="90" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="20" y="62" width="140" height="44" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+          <text x="90" y="81" text-anchor="middle" fill="#412402" font-size="12" font-weight="500" font-family="sans-serif">Fiscalité</text>
+          <text x="90" y="97" text-anchor="middle" fill="#633806" font-size="10" font-family="sans-serif">impôt · fraude · bouclier</text>
+
+          <!-- Inégalités -->
+          <line x1="290" y1="185" x2="140" y2="215" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="20" y="190" width="140" height="44" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+          <text x="90" y="209" text-anchor="middle" fill="#501313" font-size="12" font-weight="500" font-family="sans-serif">Inégalités</text>
+          <text x="90" y="225" text-anchor="middle" fill="#791F1F" font-size="10" font-family="sans-serif">Gini · France · mobilité</text>
+
+          <!-- Redistribution -->
+          <line x1="490" y1="185" x2="630" y2="90" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="612" y="62" width="148" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="686" y="81" text-anchor="middle" fill="#04342C" font-size="12" font-weight="500" font-family="sans-serif">Redistribution</text>
+          <text x="686" y="97" text-anchor="middle" fill="#085041" font-size="10" font-family="sans-serif">impôts · transferts · effets</text>
+
+          <!-- Travail & Capital -->
+          <line x1="490" y1="200" x2="630" y2="215" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="612" y="190" width="148" height="44" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+          <text x="686" y="209" text-anchor="middle" fill="#26215C" font-size="12" font-weight="500" font-family="sans-serif">Travail &amp; Capital</text>
+          <text x="686" y="225" text-anchor="middle" fill="#3C3489" font-size="10" font-family="sans-serif">ruissellement · retraites · RUB</text>
+
+          <!-- Pouvoir d'achat -->
+          <line x1="390" y1="231" x2="390" y2="340" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="300" y="340" width="180" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+          <text x="390" y="359" text-anchor="middle" fill="#042C53" font-size="12" font-weight="500" font-family="sans-serif">Pouvoir d'achat</text>
+          <text x="390" y="375" text-anchor="middle" fill="#0C447C" font-size="10" font-family="sans-serif">inflation · salaires · ménages</text>
+        </svg>
+      </div>
+
+      <p class="section-title">Chiffres clés à mémoriser</p>
+      <div class="grid3">
+        <div class="card card-red">
+          <h3>Inégalités France</h3>
+          <span class="data-pill red">Gini = 0,29</span>
+          <span class="data-pill red">Top 10% = 35% revenus</span>
+          <span class="data-pill red">P90/P10 ≈ 3,6</span>
+          <p class="author">Source : INSEE 2023</p>
+        </div>
+        <div class="card card-amber">
+          <h3>Pression fiscale</h3>
+          <span class="data-pill hot">Prélevements = 44% PIB</span>
+          <span class="data-pill hot">Fraude fisc. ≈ 80–100 Md€/an</span>
+          <span class="data-pill hot">Bouclier: 60% revenus</span>
+          <p class="author">Source : OCDE / DGFiP 2023</p>
+        </div>
+        <div class="card card-green">
+          <h3>Redistribution</h3>
+          <span class="data-pill green">Réduction Gini : 0,50→0,29</span>
+          <span class="data-pill green">Dépenses sociales: 32% PIB</span>
+          <span class="data-pill green">RSA : 1 pers = 607 €/mois</span>
+          <p class="author">Source : INSEE / DREES 2023</p>
+        </div>
+      </div>
+
+      <p class="section-title">Auteurs fondamentaux — à citer absolument</p>
+      <div class="grid2">
+        <div class="card card-blue">
+          <h3>Thomas Piketty</h3>
+          <p><em>Le Capital au XXIe siècle</em> (2013) — La rentabilité du capital (r) dépasse la croissance (g), creusant les inégalités patrimoniales durablement.</p>
+          <p class="author">→ r &gt; g : tendance structurelle à l'accumulation</p>
+        </div>
+        <div class="card card-purple">
+          <h3>Arthur Laffer</h3>
+          <p>Courbe de Laffer : au-delà d'un seuil, toute hausse du taux marginal d'imposition réduit les recettes fiscales (évasion, désincitatif).</p>
+          <p class="author">→ Argument central pour "trop d'impôt tue l'impôt"</p>
+        </div>
+        <div class="card card-teal">
+          <h3>John Rawls</h3>
+          <p><em>Théorie de la Justice</em> (1971) — Principe de différence : les inégalités ne sont justifiables que si elles bénéficient aux plus défavorisés.</p>
+          <p class="author">→ Base philosophique pour la redistribution</p>
+        </div>
+        <div class="card card-amber">
+          <h3>Milton Friedman</h3>
+          <p>Préconise l'impôt négatif (ancêtre du RUB) et critique les effets désincitatifs des transferts sociaux sur l'offre de travail.</p>
+          <p class="author">→ Libéral, contre l'État-providence extensif</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- === FISCALITE === -->
+    <div id="panel-fiscalite" class="panel">
+
+      <div class="tip"><strong>Sujets couverts ici :</strong> Égalité face à l'impôt · Limites politique fiscale · Trop d'impôt tue l'impôt · Prélèvement confiscatoire &amp; bouclier fiscal · Fraude fiscale · Cotisations sociales &amp; profits</div>
+
+      <p class="section-title">Carte mentale — Fiscalité</p>
+      <div class="mindmap-wrap">
+        <svg width="100%" viewBox="0 0 780 310" role="img">
+          <title>Carte mentale fiscalité</title>
+          <defs>
+            <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+          </defs>
+          <!-- Centre -->
+          <rect x="305" y="125" width="170" height="44" rx="8" fill="#BA7517"/>
+          <text x="390" y="144" text-anchor="middle" fill="#fff" font-size="13" font-weight="500" font-family="sans-serif">Fiscalité</text>
+          <text x="390" y="161" text-anchor="middle" fill="#FAEEDA" font-size="10" font-family="sans-serif">prélèvements obligatoires</text>
+
+          <!-- Branches gauche -->
+          <line x1="305" y1="140" x2="190" y2="50" stroke="#BA7517" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="50" y="26" width="162" height="38" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+          <text x="131" y="44" text-anchor="middle" fill="#412402" font-size="11" font-weight="500" font-family="sans-serif">Impôt progressif (IRPP)</text>
+          <text x="131" y="57" text-anchor="middle" fill="#633806" font-size="10" font-family="sans-serif">équité verticale / horizontale</text>
+
+          <line x1="305" y1="148" x2="195" y2="148" stroke="#A32D2D" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="50" y="128" width="162" height="38" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+          <text x="131" y="146" text-anchor="middle" fill="#501313" font-size="11" font-weight="500" font-family="sans-serif">Courbe de Laffer</text>
+          <text x="131" y="159" text-anchor="middle" fill="#791F1F" font-size="10" font-family="sans-serif">taux optimum · désincitatif</text>
+
+          <line x1="305" y1="158" x2="190" y2="250" stroke="#534AB7" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="50" y="230" width="162" height="38" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+          <text x="131" y="248" text-anchor="middle" fill="#26215C" font-size="11" font-weight="500" font-family="sans-serif">Fraude &amp; évasion fiscale</text>
+          <text x="131" y="261" text-anchor="middle" fill="#3C3489" font-size="10" font-family="sans-serif">80–100 Md€ · paradis fiscaux</text>
+
+          <!-- Branches droite -->
+          <line x1="475" y1="140" x2="580" y2="50" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="562" y="26" width="162" height="38" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="643" y="44" text-anchor="middle" fill="#04342C" font-size="11" font-weight="500" font-family="sans-serif">Bouclier fiscal / flat tax</text>
+          <text x="643" y="57" text-anchor="middle" fill="#085041" font-size="10" font-family="sans-serif">PFU 30% · plafonnem. 60%</text>
+
+          <line x1="475" y1="148" x2="572" y2="148" stroke="#185FA5" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="562" y="128" width="162" height="38" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+          <text x="643" y="146" text-anchor="middle" fill="#042C53" font-size="11" font-weight="500" font-family="sans-serif">Cotisations sociales</text>
+          <text x="643" y="159" text-anchor="middle" fill="#0C447C" font-size="10" font-family="sans-serif">coût travail · compétitivité</text>
+
+          <line x1="475" y1="158" x2="580" y2="250" stroke="#c8922a" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="562" y="230" width="162" height="38" rx="6" fill="#FAEEDA" stroke="#c8922a" stroke-width="0.5"/>
+          <text x="643" y="248" text-anchor="middle" fill="#412402" font-size="11" font-weight="500" font-family="sans-serif">Limites politique fiscale</text>
+          <text x="643" y="261" text-anchor="middle" fill="#633806" font-size="10" font-family="sans-serif">efficacité · acceptabilité</text>
+        </svg>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <p class="section-title">Sommes-nous égaux face à l'impôt ?</p>
+          <div class="card card-amber">
+            <span class="question-pill">Non formellement</span>
+            <ul>
+              <li><strong>Impôt progressif</strong> (IRPP) : équité verticale — taux croissant selon revenus (de 0% à 45%)</li>
+              <li><strong>TVA régressive</strong> : pèse plus sur les ménages modestes (15–20% revenu vs 5–8% chez les aisés)</li>
+              <li><strong>IS vs IR</strong> : optimisation possible pour indépendants/actionnaires</li>
+              <li>Niches fiscales : 90 Md€/an, profitent surtout aux hauts revenus</li>
+            </ul>
+            <div class="quote">Distinction équité horizontale (même impôt pour même revenu) vs verticale (plus d'impôt pour plus de revenus) — Mill, Musgrave</div>
+            <p class="author">Auteurs : J.S. Mill · R. Musgrave (finances publiques)</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Trop d'impôt tue-t-il l'impôt ?</p>
+          <div class="card card-red">
+            <span class="question-pill">Débat classique</span>
+            <ul>
+              <li><strong>Laffer (1974)</strong> : courbe en cloche — taux optimum maximise les recettes</li>
+              <li>Au-delà → désincitatif à travailler/investir, fraude, exil fiscal</li>
+              <li>France : taux marginal IRPP = 45%, CSG incluse → taux effectif ≥ 55%</li>
+              <li><strong>Contre-argument</strong> : Diamond &amp; Saez (2011) estiment le taux optimal à 70% aux USA</li>
+            </ul>
+            <span class="tag tag-pour">Laffer, Allais</span>
+            <span class="tag tag-contre">Diamond-Saez, Stiglitz</span>
+            <p class="author">Auteurs : A. Laffer · P. Diamond · E. Saez</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Prélèvement confiscatoire &amp; bouclier fiscal</p>
+          <div class="card card-purple">
+            <ul>
+              <li><strong>Bouclier fiscal</strong> (2007–2011) : total impôts directs ≤ 60% des revenus</li>
+              <li>Aboli en 2011, remplacé par l'<strong>ISF</strong> puis <strong>IFI</strong> (2018)</li>
+              <li><strong>PFU / flat tax</strong> (2018) : 30% sur revenus du capital → neutralité fiscale capital/travail</li>
+              <li>Prélèvement confiscatoire : contraire à la Constitution (CC, déc. 2012 sur tranche 75%)</li>
+            </ul>
+            <div class="quote">Le Conseil constitutionnel censure l'impôt confiscatoire — rupture d'égalité devant les charges publiques (art. 13 DDHC)</div>
+            <p class="author">Lien droit : art. 13 DDHC · décision CC 29 déc. 2012</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Fraude fiscale &amp; cotisations sociales</p>
+          <div class="card card-teal">
+            <h3>Fraude fiscale</h3>
+            <ul>
+              <li>Fraude = illégal ; Optimisation = légal ; Évasion = frontière floue</li>
+              <li>Estimation : 80–100 Md€/an (Sénat 2023), dont 36 Md€ de cotisations sociales</li>
+              <li>Paradis fiscaux : liste OCDE, conventions bilatérales, BEPS (OCDE 2015)</li>
+            </ul>
+            <hr/>
+            <h3>Cotisations sociales &amp; profits</h3>
+            <ul>
+              <li>Cotisations patronales ≈ 40% du salaire brut → coût du travail</li>
+              <li><strong>Oui, elles pèsent sur les profits</strong> (réduction de la marge) mais aussi sur l'emploi (Cahuc, Kramarz 2004)</li>
+              <li>Exonérations bas salaires (Fillon) : 36 Md€/an → débat sur "trappe à bas salaires"</li>
+            </ul>
+            <p class="author">P. Cahuc · F. Kramarz · rapport PLFSS 2024</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === INEGALITES === -->
+    <div id="panel-inegalites" class="panel">
+      <div class="tip"><strong>Sujets couverts :</strong> La France est-elle inégalitaire ? · Inégalités et répartition des revenus · Faut-il répartir en faveur de ceux qui travaillent ?</div>
+
+      <p class="section-title">Carte mentale — Inégalités</p>
+      <div class="mindmap-wrap">
+        <svg width="100%" viewBox="0 0 780 260" role="img">
+          <title>Carte mentale inégalités</title>
+          <defs>
+            <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+          </defs>
+          <rect x="305" y="105" width="170" height="44" rx="8" fill="#A32D2D"/>
+          <text x="390" y="124" text-anchor="middle" fill="#fff" font-size="13" font-weight="500" font-family="sans-serif">Inégalités</text>
+          <text x="390" y="141" text-anchor="middle" fill="#F7C1C1" font-size="10" font-family="sans-serif">revenu · patrimoine · chances</text>
+
+          <line x1="305" y1="120" x2="190" y2="45" stroke="#A32D2D" stroke-width="1" marker-end="url(#arr3)"/>
+          <rect x="40" y="24" width="162" height="38" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+          <text x="121" y="42" text-anchor="middle" fill="#501313" font-size="11" font-weight="500" font-family="sans-serif">Mesure : indice de Gini</text>
+          <text x="121" y="55" text-anchor="middle" fill="#791F1F" font-size="10" font-family="sans-serif">0 = égalité · 1 = inégalité totale</text>
+
+          <line x1="305" y1="127" x2="190" y2="127" stroke="#BA7517" stroke-width="1" marker-end="url(#arr3)"/>
+          <rect x="40" y="108" width="162" height="38" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+          <text x="121" y="126" text-anchor="middle" fill="#412402" font-size="11" font-weight="500" font-family="sans-serif">Inégalités primaires</text>
+          <text x="121" y="139" text-anchor="middle" fill="#633806" font-size="10" font-family="sans-serif">salaires · capital · héritage</text>
+
+          <line x1="305" y1="138" x2="190" y2="210" stroke="#534AB7" stroke-width="1" marker-end="url(#arr3)"/>
+          <rect x="40" y="192" width="162" height="38" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+          <text x="121" y="210" text-anchor="middle" fill="#26215C" font-size="11" font-weight="500" font-family="sans-serif">Mobilité sociale</text>
+          <text x="121" y="223" text-anchor="middle" fill="#3C3489" font-size="10" font-family="sans-serif">ascendante / intergénérat.</text>
+
+          <line x1="475" y1="120" x2="580" y2="45" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr3)"/>
+          <rect x="570" y="24" width="162" height="38" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="651" y="42" text-anchor="middle" fill="#04342C" font-size="11" font-weight="500" font-family="sans-serif">France vs OCDE</text>
+          <text x="651" y="55" text-anchor="middle" fill="#085041" font-size="10" font-family="sans-serif">Gini 0,29 (médian OCDE)</text>
+
+          <line x1="475" y1="127" x2="572" y2="127" stroke="#185FA5" stroke-width="1" marker-end="url(#arr3)"/>
+          <rect x="570" y="108" width="162" height="38" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+          <text x="651" y="126" text-anchor="middle" fill="#042C53" font-size="11" font-weight="500" font-family="sans-serif">Inégalités patrimoine</text>
+          <text x="651" y="139" text-anchor="middle" fill="#0C447C" font-size="10" font-family="sans-serif">Gini patrimoine ≈ 0,65</text>
+
+          <line x1="475" y1="138" x2="580" y2="210" stroke="#c8922a" stroke-width="1" marker-end="url(#arr3)"/>
+          <rect x="570" y="192" width="162" height="38" rx="6" fill="#FAEEDA" stroke="#c8922a" stroke-width="0.5"/>
+          <text x="651" y="210" text-anchor="middle" fill="#412402" font-size="11" font-weight="500" font-family="sans-serif">Causes structurelles</text>
+          <text x="651" y="223" text-anchor="middle" fill="#633806" font-size="10" font-family="sans-serif">tech · éducation · héritage</text>
+        </svg>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <p class="section-title">La France est-elle inégalitaire ?</p>
+          <div class="card card-blue">
+            <span class="question-pill">Réponse nuancée</span>
+            <ul>
+              <li><strong>Inégalités de revenus</strong> : Gini = 0,29 (après redistribution) — dans la moyenne OCDE, mais avant redistribution = 0,50</li>
+              <li><strong>Inégalités de patrimoine</strong> : Gini ≈ 0,65 — plus fortes ; 10% des ménages détiennent 50% du patrimoine</li>
+              <li><strong>Inégalités des chances</strong> : corrélation diplôme/milieu social forte (Thélot-Vallet)</li>
+              <li>Comparaison : plus égalitaire que USA (Gini 0,39) mais moins qu'Allemagne post-redistribution</li>
+            </ul>
+            <div class="quote">La France réduit davantage ses inégalités via la redistribution que la plupart des pays de l'OCDE</div>
+            <p class="author">INSEE · OCDE 2023 · Camille Landais</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Faut-il répartir en faveur de ceux qui travaillent ?</p>
+          <div class="card card-green">
+            <span class="question-pill">Tension mérite / besoin</span>
+            <ul>
+              <li><strong>Arguments pour</strong> : incitation au travail, valeur méritocratique, financement des protections</li>
+              <li><strong>Arguments contre</strong> : Rawls (différence) — protéger les plus vulnérables prime sur le mérite ; droits imprescriptibles</li>
+              <li>En France : prime d'activité (PPV, Macron) → valorise le travail tout en redistribuant</li>
+              <li>Débat travail vs capital : part salariale stagne depuis 1980 (Piketty)</li>
+            </ul>
+            <span class="tag tag-pour">Méritocrates, libéraux</span>
+            <span class="tag tag-contre">Rawls, Dworkin, Roemer</span>
+            <p class="author">Rawls 1971 · Piketty 2013 · Dworkin 2000</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="section-title">Mesures des inégalités — fiche rapide</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>Indice de Gini</h3>
+          <span class="data-pill cool">France : 0,29</span>
+          <span class="data-pill red">USA : 0,39</span>
+          <span class="data-pill green">Danemark : 0,28</span>
+          <p>0 = égalité parfaite, 1 = inégalité absolue</p>
+        </div>
+        <div class="card">
+          <h3>Ratio D9/D1</h3>
+          <p>Rapport entre le 9e et le 1er décile de revenus. France ≈ 3,6 (revenu disponible). OCDE moyen ≈ 4.</p>
+        </div>
+        <div class="card">
+          <h3>Courbe de Lorenz</h3>
+          <p>Représente la répartition cumulée des revenus. Plus elle s'éloigne de la diagonale d'équité, plus les inégalités sont fortes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- === REDISTRIBUTION === -->
+    <div id="panel-redistribution" class="panel">
+      <div class="tip"><strong>Sujets couverts :</strong> Comment les revenus sont-ils redistribués ? · Effets de la redistribution · Revenu universel de base</div>
+
+      <p class="section-title">Mécanismes de redistribution</p>
+      <div class="mindmap-wrap">
+        <svg width="100%" viewBox="0 0 780 220" role="img">
+          <title>Schéma redistribution</title>
+          <defs>
+            <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+          </defs>
+          <!-- Boîte prélèvements -->
+          <rect x="30" y="80" width="160" height="56" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+          <text x="110" y="100" text-anchor="middle" fill="#501313" font-size="12" font-weight="500" font-family="sans-serif">Prélèvements</text>
+          <text x="110" y="115" text-anchor="middle" fill="#791F1F" font-size="10" font-family="sans-serif">IRPP · IS · TVA · CSG</text>
+          <text x="110" y="128" text-anchor="middle" fill="#791F1F" font-size="10" font-family="sans-serif">Cotisations sociales</text>
+          <!-- Flèche vers État -->
+          <line x1="190" y1="108" x2="295" y2="108" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <!-- État / Sécurité Sociale -->
+          <rect x="295" y="70" width="190" height="76" rx="8" fill="#1a3a5c"/>
+          <text x="390" y="98" text-anchor="middle" fill="#fff" font-size="13" font-weight="500" font-family="sans-serif">État &amp; Sécu. Sociale</text>
+          <text x="390" y="114" text-anchor="middle" fill="#9bb8d4" font-size="10" font-family="sans-serif">redistribution verticale</text>
+          <text x="390" y="128" text-anchor="middle" fill="#9bb8d4" font-size="10" font-family="sans-serif">redistribution horizontale</text>
+          <!-- Flèche vers transferts -->
+          <line x1="485" y1="108" x2="590" y2="108" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <!-- Transferts -->
+          <rect x="590" y="80" width="160" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="670" y="100" text-anchor="middle" fill="#04342C" font-size="12" font-weight="500" font-family="sans-serif">Transferts</text>
+          <text x="670" y="115" text-anchor="middle" fill="#085041" font-size="10" font-family="sans-serif">RSA · APL · alloc. fam.</text>
+          <text x="670" y="128" text-anchor="middle" fill="#085041" font-size="10" font-family="sans-serif">retraites · chômage</text>
+          <!-- Types sous l'état -->
+          <text x="310" y="165" fill="#A32D2D" font-size="10" font-family="sans-serif">Verticale : hauts→bas revenus</text>
+          <text x="310" y="180" fill="#0F6E56" font-size="10" font-family="sans-serif">Horizontale : actifs→inactifs, sans enfants→familles</text>
+        </svg>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <p class="section-title">Comment les revenus sont-ils redistribués ?</p>
+          <div class="card card-blue">
+            <ul>
+              <li><strong>Redistribution verticale</strong> : des hauts vers les bas revenus via impôt progressif + transferts sociaux</li>
+              <li><strong>Redistribution horizontale</strong> : selon les risques (maladie, chômage, vieillesse, famille)</li>
+              <li><strong>Prestation en nature</strong> : éducation, santé publique, logement social (évalués à ~15% du PIB)</li>
+              <li><strong>Résultat</strong> : le Gini passe de 0,50 (primaire) à 0,29 (disponible) — réduction de 42%</li>
+            </ul>
+            <div class="quote">La protection sociale représente 32% du PIB français, la plus élevée de l'UE — DREES 2023</div>
+            <p class="author">INSEE · DREES · Eurostat 2023</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Effets de la redistribution</p>
+          <div class="card card-teal">
+            <h3>Effets positifs</h3>
+            <ul>
+              <li>Réduction pauvreté : taux de pauvreté sans redistribution = ~24%, avec = 14% (INSEE)</li>
+              <li>Stabilisateur automatique : soutient la demande en crise (keynésien)</li>
+              <li>Cohésion sociale, légitimité de l'État</li>
+            </ul>
+            <hr/>
+            <h3>Effets négatifs potentiels</h3>
+            <ul>
+              <li><strong>Trappe à pauvreté</strong> : TME (taux marginal effectif) parfois > 100% → désincitation</li>
+              <li>Coût de gestion (bureaucratie) — Buchanan</li>
+              <li>Transferts mal ciblés (universalité vs sélectivité)</li>
+            </ul>
+            <p class="author">A. Atkinson · J. Buchanan · rapport France Stratégie</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="section-title">Faut-il instaurer un revenu universel de base (RUB) ?</p>
+      <div class="grid2">
+        <div class="card card-green">
+          <h3>Arguments pour <span class="tag tag-pour">Gauche &amp; Libertariens</span></h3>
+          <ul>
+            <li>Supprime les trappes à pauvreté</li>
+            <li>Simplifie le système (remplace RSA, APL…)</li>
+            <li>S'adapte à l'automatisation (pertes d'emplois)</li>
+            <li>Expérimentation : Finlande (2017-18), Stockton CA, Kenya</li>
+            <li>Friedman (impôt négatif), Van Parijs (citoyenneté)</li>
+          </ul>
+        </div>
+        <div class="card card-red">
+          <h3>Arguments contre <span class="tag tag-contre">Centre &amp; Droite</span></h3>
+          <ul>
+            <li>Coût : 12 000 €/an × 50 M adultes = 600 Md€ (non finançable sans sacrifier d'autres services)</li>
+            <li>Désincitation au travail (débat empirique)</li>
+            <li>Non ciblé : donne autant aux riches qu'aux pauvres</li>
+            <li>Risque de remplacer des droits acquis par un filet bas</li>
+          </ul>
+          <p class="author">Rapport CAE 2017 · Pisani-Ferry · Standing (pour) vs Tirole (contre)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- === TRAVAIL & CAPITAL === -->
+    <div id="panel-travail" class="panel">
+      <div class="tip"><strong>Sujets couverts :</strong> Répartition juste travail/capital · Ruissellement (trickle-down) · Réforme des retraites · Pouvoir d'achat des ménages</div>
+
+      <div class="grid2">
+        <div>
+          <p class="section-title">Répartition travail / capital</p>
+          <div class="card card-purple">
+            <ul>
+              <li><strong>Partage primaire</strong> : salaires vs profits. En France, part salariale ≈ 67% de la VA (stable mais en débat)</li>
+              <li><strong>r &gt; g (Piketty)</strong> : rentabilité du capital (4-5%) &gt; croissance (1-2%) → enrichissement des détenteurs de capital</li>
+              <li><strong>Kalecki</strong> : pouvoir des travailleurs vs capitalistes dans la négociation salariale</li>
+              <li><strong>Tendance</strong> : compression des salaires, essor des dividendes depuis les années 1980 (financiarisation)</li>
+              <li>Seule juste répartition ? Non — il faut aussi corriger les inégalités secondaires (Rawls)</li>
+            </ul>
+            <p class="author">T. Piketty · M. Kalecki · INSEE comptes nationaux</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Ruissellement (trickle-down)</p>
+          <div class="card card-amber">
+            <span class="question-pill">Théorie libérale</span>
+            <ul>
+              <li><strong>Idée</strong> : enrichir les plus riches stimule investissements → emplois → revenus pour tous</li>
+              <li><strong>Reagan (Reaganomics)</strong>, Thatcher : baisse impôts hauts revenus + déréglementation</li>
+              <li><strong>Critique empirique</strong> : FMI (2015), Ostry et al. — les inégalités réduisent la croissance. Pas de preuve robuste du ruissellement</li>
+              <li>Piketty : les réductions d'impôts des années 1980 ont creusé les inégalités sans accélérer la croissance</li>
+            </ul>
+            <span class="tag tag-pour">Laffer, Friedman, Reagan</span>
+            <span class="tag tag-contre">Stiglitz, Piketty, FMI 2015</span>
+            <p class="author">FMI (Ostry 2015) · Piketty 2013 · OFCE</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Réforme des retraites (2023)</p>
+          <div class="card card-teal">
+            <ul>
+              <li><strong>Mesure principale</strong> : report de l'âge légal de 62 à 64 ans</li>
+              <li><strong>Justification</strong> : déficit projeté du système (-13 Md€ à horizon 2030, COR)</li>
+              <li><strong>Débat</strong> : pénibilité, inégalités hommes/femmes (retraites femmes inférieures de 40%), différences d'espérance de vie selon catégorie sociale</li>
+              <li><strong>Alternatives</strong> : cotisations sur les dividendes, réforme paramétrique, allongement durée cotisation</li>
+              <li>Utilisée : article 49.3 → questionnement démocratique</li>
+            </ul>
+            <p class="author">COR · rapport Moreau · DREES 2023</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Pouvoir d'achat des ménages</p>
+          <div class="card card-blue">
+            <ul>
+              <li><strong>Définition</strong> : revenu disponible / indice des prix (IPC)</li>
+              <li>Inflation 2022 : +5,9% (pic) → érosion du pouvoir d'achat malgré le "bouclier tarifaire"</li>
+              <li><strong>Chèque énergie, remise carburant</strong> : politiques de soutien ciblées</li>
+              <li><strong>SMIC indexé</strong> : revalorisation automatique si IPC > 2% → 7 revalorisations en 2 ans</li>
+              <li>Paradoxe : salaires réels en hausse sur longue période, mais ressenti négatif (effet d'aspiration)</li>
+            </ul>
+            <div class="quote">Le pouvoir d'achat moyen a progressé de 0,8% sur 2022, mais les ménages modestes ont subi une perte réelle du fait de la structure de leur consommation (énergie, alimentation)</div>
+            <p class="author">INSEE, rapport annuel 2023 · France Stratégie</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === MÉTHODE ORAL === -->
+    <div id="panel-oral" class="panel">
+      <p class="section-title">Structure type d'un oral de 10 min</p>
+      <div class="mindmap-wrap">
+        <svg width="100%" viewBox="0 0 780 120" role="img">
+          <title>Structure oral 10 minutes</title>
+          <defs>
+            <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+          </defs>
+          <rect x="20" y="38" width="130" height="44" rx="8" fill="#1a3a5c"/>
+          <text x="85" y="57" text-anchor="middle" fill="#fff" font-size="12" font-weight="500" font-family="sans-serif">Intro</text>
+          <text x="85" y="73" text-anchor="middle" fill="#9bb8d4" font-size="10" font-family="sans-serif">déf. · enjeu · plan ~ 1'30</text>
+          <line x1="150" y1="60" x2="190" y2="60" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+          <rect x="190" y="38" width="140" height="44" rx="8" fill="#BA7517"/>
+          <text x="260" y="57" text-anchor="middle" fill="#fff" font-size="12" font-weight="500" font-family="sans-serif">I — Constats</text>
+          <text x="260" y="73" text-anchor="middle" fill="#FAEEDA" font-size="10" font-family="sans-serif">données · mécanismes ~ 3'</text>
+          <line x1="330" y1="60" x2="370" y2="60" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+          <rect x="370" y="38" width="140" height="44" rx="8" fill="#A32D2D"/>
+          <text x="440" y="57" text-anchor="middle" fill="#fff" font-size="12" font-weight="500" font-family="sans-serif">II — Débats</text>
+          <text x="440" y="73" text-anchor="middle" fill="#F7C1C1" font-size="10" font-family="sans-serif">auteurs · pour/contre ~ 3'</text>
+          <line x1="510" y1="60" x2="550" y2="60" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+          <rect x="550" y="38" width="140" height="44" rx="8" fill="#0F6E56"/>
+          <text x="620" y="57" text-anchor="middle" fill="#fff" font-size="12" font-weight="500" font-family="sans-serif">Ccl — Ouverture</text>
+          <text x="620" y="73" text-anchor="middle" fill="#9FE1CB" font-size="10" font-family="sans-serif">bilan nuancé + lien ~ 2'</text>
+        </svg>
+      </div>
+
+      <p class="section-title">Phrases d'accroche par thème</p>
+      <div class="grid2">
+        <div class="card card-blue">
+          <h3>Fiscalité</h3>
+          <div class="quote">"En 2023, les prélèvements obligatoires représentent 44% du PIB français, ce qui place la France au 2e rang mondial — mais cette pression fiscale est-elle juste et efficace ?"</div>
+        </div>
+        <div class="card card-red">
+          <h3>Inégalités</h3>
+          <div class="quote">"Selon l'INSEE, en France, 10% des ménages captent 35% des revenus disponibles — peut-on parler de pays inégalitaire quand la redistribution réduit de moitié l'indice de Gini ?"</div>
+        </div>
+        <div class="card card-green">
+          <h3>Redistribution / RUB</h3>
+          <div class="quote">"La Finlande, la Californie, le Kenya : le revenu universel n'est plus une utopie mais une expérimentation. Faut-il y voir une révolution ou un mirage ?"</div>
+        </div>
+        <div class="card card-purple">
+          <h3>Ruissellement / Capital</h3>
+          <div class="quote">"En 2015, le FMI lui-même reconnaissait que les inégalités nuisent à la croissance — la théorie du ruissellement est-elle un mythe économique ?"</div>
+        </div>
+      </div>
+
+      <p class="section-title">Liens interdisciplinaires droit / économie</p>
+      <div class="card">
+        <ul>
+          <li><strong>Art. 13 DDHC</strong> : principe d'égalité devant les charges publiques → base du droit fiscal français</li>
+          <li><strong>Conseil constitutionnel</strong> : censure le prélèvement confiscatoire (déc. 2012 sur tranche 75%)</li>
+          <li><strong>CEDH</strong> : droit de propriété (Protocole 1 art. 1) — limite les confiscations</li>
+          <li><strong>Art. 11 PIDESC</strong> : droit à un niveau de vie suffisant → fondement du RUB ou de l'aide sociale</li>
+          <li><strong>49.3 Constitution</strong> : réforme des retraites 2023 → légalité vs légitimité démocratique</li>
+        </ul>
+      </div>
+
+      <p class="section-title">10 termes clés à maîtriser</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+        <span class="data-pill cool">Gini</span>
+        <span class="data-pill cool">Redistribution verticale</span>
+        <span class="data-pill hot">Courbe de Laffer</span>
+        <span class="data-pill hot">Prélèvements obligatoires</span>
+        <span class="data-pill green">Partage primaire VA</span>
+        <span class="data-pill green">Trappe à pauvreté</span>
+        <span class="data-pill red">r &gt; g (Piketty)</span>
+        <span class="data-pill red">Trickle-down</span>
+        <span class="data-pill cool">TME (taux marginal effectif)</span>
+        <span class="data-pill hot">Stabilisateur automatique</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => {
+    if (t.textContent.trim().toLowerCase().includes(name === 'vue' ? 'vue' : name === 'fiscalite' ? 'fiscalité' : name === 'inegalites' ? 'inégalités' : name === 'redistribution' ? 'redistrib' : name === 'travail' ? 'travail' : 'méthode')) {
+      t.classList.add('active');
+    }
+  });
+  document.querySelectorAll('.badge').forEach(b => {
+    const txt = b.textContent.toLowerCase();
+    if (
+      (name === 'vue' && txt.includes('vue')) ||
+      (name === 'fiscalite' && txt.includes('fiscalité')) ||
+      (name === 'inegalites' && txt.includes('inégalités')) ||
+      (name === 'redistribution' && txt.includes('redistribution')) ||
+      (name === 'travail' && txt.includes('travail')) ||
+      (name === 'oral' && txt.includes('méthode'))
+    ) b.classList.add('active');
+  });
+}
+// Fix tab active state on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.tab').classList.add('active');
+});
+</script>
